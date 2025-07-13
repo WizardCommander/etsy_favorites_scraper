@@ -21,7 +21,7 @@ LOCATIONS = [
 
 def rotate_mullvad():
     country, city = random.choice(LOCATIONS)
-    print(f"🌐 Rotating Mullvad IP to: {city.upper()}, {country.upper()}")
+    print(f"Rotating Mullvad IP to: {city.upper()}, {country.upper()}")
     subprocess.run(["mullvad", "relay", "set", "location", country, city])
     subprocess.run(["mullvad", "connect"])
     time.sleep(6)
@@ -29,10 +29,10 @@ def rotate_mullvad():
     for _ in range(5):
         try:
             socket.gethostbyname("www.google.com")
-            print("✅ Internet OK")
+            print("Internet OK")
             return True
         except socket.gaierror:
-            print("⚠️ DNS failed, retrying...")
+            print("DNS failed, retrying...")
             time.sleep(3)
     print("Internet not working after Mullvad switch. Exiting.")
     return False
@@ -55,7 +55,7 @@ def scrape_user(row):
     driver = uc.Chrome(options=options, headless=False)
 
     try:
-        print("🌐 Visiting:", profile_url)
+        print("Visiting:", profile_url)
         driver.get(profile_url)
         time.sleep(random.uniform(4.0, 6.0))
 
@@ -111,7 +111,7 @@ if "scraped" not in df.columns:
 
 unscraped_df = df[df["scraped"] == False]
 if unscraped_df.empty:
-    print("✅ All profiles have been scraped.")
+    print("All profiles have been scraped.")
     exit()
 
 for i, (_, row) in enumerate(unscraped_df.iterrows()):
@@ -131,9 +131,9 @@ for i, (_, row) in enumerate(unscraped_df.iterrows()):
             df_out.to_csv(OUTPUT_CSV, mode='a', header=False, index=False)
         else:
             df_out.to_csv(OUTPUT_CSV, index=False)
-        print(f"✅ Saved {len(df_out)} listings.")
+        print(f"Saved {len(df_out)} listings.")
     else:
-        print("⚠️ No listings scraped.")
+        print("No listings scraped.")
 
     df.loc[df["Profile URL"] == row["Profile URL"], "scraped"] = True
     df.to_csv(CSV_PATH, index=False)
